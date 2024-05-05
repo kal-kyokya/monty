@@ -76,12 +76,14 @@ void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t *
 	int index;
 
 	index = 0;
+	printf("\nINSIDE LINE CHECKER\nLine is:\"%s\"\n", line);
 	token = strtok(line, " ");
 	if (token == NULL)
 	{
-		fprintf(stderr, "\nERROR:L%d: NULL input.\n", l_num);
+		fprintf(stderr, "Error:L%d: NULL input.\n", l_num);
 		exit(EXIT_FAILURE);
 	}	  
+	printf("POSTSTRTOK: Token is: \"%s\"\n", token);
 	while (index < 2)
 	{
 		if (!strcmp(token, instr[index].opcode))
@@ -102,6 +104,7 @@ void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t *
 		}
 		index++;
 	}
+	printf("POSTWHILE: Token is: \"%s\"\n\n", token);
 	if (index >= 2)
 	{
 		printf("Invalid command: \"%s\".\n", token);
