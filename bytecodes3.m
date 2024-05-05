@@ -1,1 +1,1 @@
-push 0a
+push     0a
