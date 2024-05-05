@@ -1,7 +1,5 @@
 #include "monty.h"
 
-int push_value;
-
 /**
  * push - Adds an element to the stack.
  * @top: Address of the pointer to last added node to SLL.
@@ -42,9 +40,7 @@ int main(int argc, char **argv)
 		{"push", push},
 		{"pall", pall}
 	};
-	stack_t *top;
 
-	top = NULL;
 	printf("--------\n");
 	l_num = 1;
 	index = 0;
@@ -75,12 +71,8 @@ int main(int argc, char **argv)
 			token = strtok(NULL, " ");
 			printf("Followed by \"%s\"\n", token);
 			if (!atoi(token) && strcmp(token, "0"))
-				printf("\"%s\" is not an integer.\n", token);
-			else
 			{
-				push_value = (atoi(token));
-				printf("push_value is: %d\n", push_value);
-				instr[index].f(&top, l_num);
+				printf("\"%s\" is not an integer.\n", token);
 			}
 			break;
 		}
