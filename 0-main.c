@@ -4,26 +4,63 @@ int push_value;
 
 /**
  * push - Adds an element to the stack.
- * @top: Address of the pointer to last added node to SLL.
- * @line_number: Integer referring the nth line in file.
+ * @top: Address of the pointer to last added node to the DLL.
+ * @l_num: Integer referring the nth line in file.
  *
  * Return: Nothing.
  */
-void push(stack_t **top __attribute__ ((unused)), unsigned int line_number __attribute__ ((unused)))
+void push(stack_t **top, unsigned int l_num)
 {
+	stack_t *new_stack;
 
+	if (top == NULL)
+	{
+		dprintf(2, "Error:Line %d: Couldn't find top stack.\n", l_num);
+		exit(EXIT_FAILURE);
+	}
+	new_stack = malloc(sizeof(stack_t));
+	if (new_stack == NULL)
+	{
+		dprintf(2, "Error:Line %d: Failed to malloc new stack.\n", l_num);
+		exit(EXIT_FAILURE);
+	}
+	new_stack->value = push_value;
+	new_stack->prev = NULL;
+	if (*top == NULL)
+	{
+		new_stack->next = NULL;
+		*top = new_stack;
+	}
+	else
+	{
+		new_stack->next = *top;
+		(*top)->prev = new_stack;
+		*top = new_stack;
+	}
 }
 
 /**
  * pall - Prints all elements found on the stack.
- * @top: Address of the pointer to last added node to SLL.
- * @line_number: Integer referring the nth line in file.
+ * @top: Address of the pointer to last added node to DLL.
+ * @l_num: Integer referring the nth line in file.
  *
  * Return: Nothing.
  */
-void pall(stack_t **top __attribute__ ((unused)), unsigned int line_number __attribute__ ((unused)))
+void pall(stack_t **top, unsigned int l_num)
 {
+	stack_t current;
 
+	current = *top;
+	if (top == NULL)
+	{
+		dprintf(2, "Error:Line %d: Couldn't find top stack.\n", l_num);
+		exit(EXIT_FAILURE);
+	}
+	while (current != NULL)
+	{
+		print("%d\n", current->value);
+		current = current->next;
+	}
 }
 
 /**
