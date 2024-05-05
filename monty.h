@@ -38,6 +38,47 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * struct list_s - Doubly linked list
+ * @str: string
+ * @next: points to the next node
+ * @prev: points to the previous node.
+ *
+ * Description: Doubly linked list node structure for project
+ */
+typedef struct list_s
+{
+	char *str;
+	struct list_s *next;
+	struct list_s *prev;
+} list_t;
+
+/**
+ * add_node_end - adds a new node at the end of a list_t list
+ * @head: pointer to pointer of first node of list_t list
+ * @str: String to be included in new node
+ *
+ * Return: address of the new element or NULL if it fails
+ */
+list_t *add_node_end(list_t **head, char *str)
+{
+	list_t *new;
+	list_t *current;
+
+	current = *head;
+	new = malloc(sizeof(list_t));
+	if (new == NULL)
+		return (NULL);
+	new->str = str;
+	new->next = NULL;
+	while (current->next != NULL)
+		current = current->next;
+	current->next = new;
+	new->prev = current;
+
+	return (new);
+}
+
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
 

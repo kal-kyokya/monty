@@ -21,7 +21,7 @@ void push(stack_t **top, unsigned int l_num)
 	new_stack = malloc(sizeof(stack_t));
 	if (new_stack == NULL)
 	{
-		fprintf(stderr, "Error:Line %d: Failed to malloc new stack.\n", l_num);
+		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
 	new_stack->value = push_value;
@@ -91,7 +91,7 @@ void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t *
 				token = strtok(NULL, " ");
 				if (!atoi(token) && strcmp(token, "0"))
 				{
-					fprintf(stderr, "L%d:Invalid:'%s'.\n", l_num, token);
+					fprintf(stderr, "L%d: unknown instruction %s\n", l_num, token);
 					exit(EXIT_FAILURE);
 				}
 				else
@@ -104,7 +104,7 @@ void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t *
 	}
 	if (index >= 2)
 	{
-		printf("Invalid command: \"%s\".\n", token);
+		printf("L%d: unknown instruction %s\n", l_num, token);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -118,18 +118,19 @@ void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t *
  */
 int main(int argc, char **argv)
 {
-	int fd, index, count;
-	char read_buffer[1024], *line_array[64];
+	int fd;
+	char read_buffer[1024];
 	unsigned int l_num;
 	instruction_t instr[] = {
 		{"push", push},
 		{"pall", pall}
 	};
 	stack_t *top;
+	list_t  *head, *new_node, *current;
 
 	l_num = 1;
-	index = count = 0;
 	top = NULL;
+	head = NULL;
 	printf("--------\n");
 	if (argc != 2)
 	{
@@ -139,23 +140,32 @@ int main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
-		fprintf(stderr, "Error: Can't open \"%s\"\n", argv[1]);
+		fprintf(stderr, "Error: Can't open file %s", argv[1]);
 		exit(EXIT_FAILURE);
 	}
 	read(fd, read_buffer, 1024);
-	line_array[0] = strtok(read_buffer, "\n");
-	while (line_array[index] != NULL)
+	new_node = malloc(sizeof(list_t));
+	if (new_node == NULL)
 	{
-		index++;
-		line_array[index] = strtok(NULL, "\n");
+		fprintf(stderr, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
 	}
-	while (count < index)
+	new_node->str = strtok(read_buffer, "\n");
+	new_node->next = NULL;
+	new_node->prev = NULL;
+	head = new_node;
+	while (new_node->str != NULL)
+		new_node = add_node_end(&head, strtok(NULL, "\n"));
+	current = head;
+	while (current->str != NULL)
 	{
-		line_check(line_array[count], instr, l_num, &top);
+		line_check(current->str, instr, l_num, &top);
 		l_num++;
-		count++;
+		current = current->next;
 	}
 
+	free(top);
+	free(head);
 	close(fd);
 	return (0);
 }
