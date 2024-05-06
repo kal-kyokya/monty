@@ -21,7 +21,7 @@ void mpush(stack_t **h, unsigned int count)
 	}
 	if (variable.argvalue[0] == '-')
 		i++;
-	for (i; variable.argvalue[i]; i++)
+	while (variable.argvalue[i])
 	{
 		if (variable.argvalue[i] > '9' || variable.argvalue[i] < '0')
 		{
@@ -31,6 +31,7 @@ void mpush(stack_t **h, unsigned int count)
 			free_stack(*h);
 			exit(EXIT_FAILURE);
 		}
+		i++;
 	}
 	num = atoi(variable.argvalue);
 	if (variable.flag == 0)
