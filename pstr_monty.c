@@ -13,11 +13,11 @@ void mpstr(stack_t **h, unsigned int count)
 	(void)count;
 
 	current = *h;
-	if (*h == NULL)
+	if (current == NULL)
 		printf("\n");
 	else
 	{
-		while (current != NULL || current->n != 0)
+		while (current != NULL && current->n != 0)
 		{
 			printf("%c", current->n);
 			current = current->next;
