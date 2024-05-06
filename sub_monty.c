@@ -14,7 +14,7 @@ void msub(stack_t **h, unsigned int count)
 	top = *h;
 	if (top == NULL || top->next == NULL)
 	{
-		fprintf(stderr, "L%u: can't sub, stack too short", count);
+		fprintf(stderr, "L%u: can't sub, stack too short\n", count);
 		free_stack(*h);
 		free(variable.text);
 		fclose(variable.file);
