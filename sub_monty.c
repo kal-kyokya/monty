@@ -9,7 +9,7 @@
  **/
 void msub(stack_t **h, unsigned int line)
 {
-	stack *top;
+	stack_t *top;
 
 	top = *h;
 	if (top == NULL || top->next == NULL)
