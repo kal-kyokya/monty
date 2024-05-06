@@ -4,21 +4,14 @@
  * mswap - swaps the top two elements of the stack
  * @h: head
  * @count: line number
+ *
  * Return: nothing.
  */
-
 void mswap(stack_t **h, unsigned int count)
 {
 	stack_t *temp;
-	int arg_len = 0, swap_value;
-	
-	temp = *h;
-	while (temp)
-	{
-		temp = temp->next;
-		arg_len++;
-	}
-	if (arg_len < 2)
+
+	if ((*h)->next == NULL)
 	{
 		fprintf(stderr, "L%u: can't swap, stack too short\n", count);
 		fclose(variable.file);
@@ -27,7 +20,9 @@ void mswap(stack_t **h, unsigned int count)
 		exit(EXIT_FAILURE);
 	}
 	temp = *h;
-	swap_value = temp->n;
-	temp->n = temp->next->n;
-	temp->next->n = swap_value;
+	*h = temp->next;
+	temp->next = (*h)->next;
+	(*h)->prev = NULL;
+	(*h)->next = temp;
+	temp->prev = *h;
 }
