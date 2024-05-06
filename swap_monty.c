@@ -4,14 +4,14 @@
  * mswap - swaps the top two elements of the stack
  * @h: head
  * @count: line number
+ *
  * Return: nothing.
  */
-
 void mswap(stack_t **h, unsigned int count)
 {
 	stack_t *temp;
 	int arg_len = 0, swap_value;
-	
+
 	temp = *h;
 	while (temp)
 	{

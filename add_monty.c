@@ -4,14 +4,14 @@
  * madd - adds the top two elements of the stack
  * @h: head
  * @count: line number
+ *
  * Return: nothing.
  */
-
 void madd(stack_t **h, unsigned int count)
 {
 	stack_t *temp;
 	int arg_len = 0;
-	
+
 	temp = *h;
 	while (temp)
 	{
