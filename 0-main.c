@@ -1,7 +1,5 @@
 #include "monty.h"
 
-int push_value;
-
 /**
  * push - Adds an element to the stack.
  * @top: Address of the pointer to last added node to the DLL.
@@ -61,7 +59,6 @@ void pall(stack_t **top, unsigned int l_num)
 		printf("%d\n", current->value);
 		current = current->next;
 	}
-	printf("\n");
 }
 
 /**
@@ -85,36 +82,31 @@ void pint(stack_t **top, unsigned int l_num)
 	}
 	else
 		printf("%d\n", (*top)->value);
-	printf("\n");
 }
 
 /**
- * line_check - Checks if an input has the right syntax.
- * @line: String to be parsed in search for opcode.
+ * l_check - Checks if an input has the right syntax.
+ * @l: String to be parsed in search for opcode.
  * @instr: List of opcodes and their associated functions.
+ * @l_n: Number referring the line in file being processed.
+ * @t: Address of the pointer to the top of the stack.
  *
  * Return: Nothing.
  */
-void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t **top)
+void l_check(char *l, instruction_t instr[], unsigned int l_n, stack_t **t)
 {
 	char *token;
 	int l_index, index;
 
 	l_index = index = 0;
-	if (line[l_index] == '\0')
+	if (l[l_index] == '\0')
 		return;
-	while (line[l_index] == ' ')
-	{
-		if (line[++l_index] == '\0')
-			return;
-	}
-	token = strtok(line, " ");
+	token = strtok(l, " ");
 	if (token == NULL)
 	{
-		fprintf(stderr, "\nERROR:L%d: NULL input.\n", l_num);
+		fprintf(stderr, "\nERROR:L%d: NULL input.\n", l_n);
 		exit(EXIT_FAILURE);
 	}
-	printf("\"%s\"\n", token);
 	while (index < 3)
 	{
 		if (!strcmp(token, instr[index].opcode))
@@ -124,20 +116,20 @@ void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t *
 				token = strtok(NULL, " ");
 				if (!atoi(token) && strcmp(token, "0"))
 				{
-					fprintf(stderr, "L%d: unknown instruction %s\n", l_num, token);
+					fprintf(stderr, "L%d: unknown instruction %s\n", l_n, token);
 					exit(EXIT_FAILURE);
 				}
 				else
 					push_value = (atoi(token));
 			}
-			instr[index].f(top, l_num);
+			instr[index].f(t, l_n);
 			return;
 		}
 		index++;
 	}
 	if (index >= 2)
 	{
-		printf("L%d: unknown instruction %s\n", l_num, token);
+		printf("L%d: unknown instruction %s\n", l_n, token);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -151,57 +143,42 @@ void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t *
  */
 int main(int argc, char **argv)
 {
-	int fd;
+	int fd = open(argv[1], O_RDONLY);
 	char read_buffer[1024], *str;
-	unsigned int l_num;
-	instruction_t instr[] = {
-		{"push", push},
-		{"pint", pint},
-		{"pall", pall}
-	};
-	stack_t *top;
-	list_t  *head, *new_node, *current;
+	unsigned int l_num = 1;
+	instruction_t instr[] = { {"push", push}, {"pint", pint}, {"pall", pall} };
+	stack_t *top = NULL;
+	list_t  *new = malloc(sizeof(list_t)), *head = new, *current;
 
-	l_num = 1;
-	top = NULL;
-	head = NULL;
-	printf("--------\n");
 	if (argc != 2)
 	{
 		fprintf(stderr, "Usage: ./monty <file_name>\n");
 		exit(EXIT_FAILURE);
 	}
-	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
 		fprintf(stderr, "Error: Can't open file %s", argv[1]);
 		exit(EXIT_FAILURE);
 	}
 	read(fd, read_buffer, 1024);
-	new_node = malloc(sizeof(list_t));
-	if (new_node == NULL)
+	if (new == NULL)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	new_node->str = strtok(read_buffer, "\n");
-	new_node->next = NULL;
-	new_node->prev = NULL;
-	head = new_node;
-	while (new_node->str != NULL)
+	new->str = strtok(read_buffer, "\n");
+	new->next = new->prev = NULL;
+	while (new->str != NULL)
 	{
 		str = strtok(NULL, "\n");
-		new_node = add_node_end(&head, str);
+		new = add_node_end(&head, str);
 	}
 	current = head;
 	while (current->next != NULL)
 	{
-		printf("L%d: ", l_num);
-		line_check(current->str, instr, l_num, &top);
-		l_num++;
+		line_check(current->str, instr, l_num++, &top);
 		current = current->next;
 	}
-
 	free(top);
 	free(head);
 	close(fd);
