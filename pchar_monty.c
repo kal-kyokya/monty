@@ -14,7 +14,7 @@ void mpchar(stack_t **h, unsigned int count)
 	top = *h;
 	if (top == NULL)
 	{
-		fprintf(stderr, "L%u: can't pchar, value out of range\n", count);
+		fprintf(stderr, "L%u: can't pchar, stack empty\n", count);
 		fclose(variable.file);
 		free(variable.text);
 		free_stack(*h);
