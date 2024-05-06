@@ -14,7 +14,15 @@ void mdiv(stack_t **h, unsigned int count)
 	top = *h;
 	if (top == NULL || top->next == NULL)
 	{
-		fprintf(stderr, "L%u: can't div, stack too short", count);
+		fprintf(stderr, "L%u: can't div, stack too short\n", count);
+		free_stack(*h);
+		free(variable.text);
+		fclose(variable.file);
+		exit(EXIT_FAILURE);
+	}
+	if (top->n == 0)
+	{
+		fprintf(stderr, "L%u: division by zero\n", count);
 		free_stack(*h);
 		free(variable.text);
 		fclose(variable.file);
