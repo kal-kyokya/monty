@@ -19,6 +19,8 @@ void mpstr(stack_t **h, unsigned int count)
 	{
 		while (current != NULL && current->n != 0)
 		{
+			if (current->n > 127 || current->n < 0)
+				break;
 			printf("%c", current->n);
 			current = current->next;
 		}
