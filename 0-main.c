@@ -65,6 +65,30 @@ void pall(stack_t **top, unsigned int l_num)
 }
 
 /**
+ * pint - Prints the element at the top of the stack.
+ * @top: Address of the pointer to last added node to DLL.
+ * @l_num: Integer referring the nth line in file.
+ *
+ * Return: Nothing.
+ */
+void pint(stack_t **top, unsigned int l_num)
+{
+	if (top == NULL)
+	{
+		fprintf(stderr, "Error:Line %d: Couldn't find top stack.\n", l_num);
+		exit(EXIT_FAILURE);
+	}
+	if (*top == NULL)
+	{
+		fprintf(stderr, "L%d: can't pint, stack empty\n", l_num);
+		exit(EXIT_FAILURE);
+	}
+	else
+		printf("%d\n", (*top)->value);
+	printf("\n");
+}
+
+/**
  * line_check - Checks if an input has the right syntax.
  * @line: String to be parsed in search for opcode.
  * @instr: List of opcodes and their associated functions.
@@ -91,7 +115,7 @@ void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t *
 		fprintf(stderr, "\nERROR:L%d: NULL input.\n", l_num);
 		exit(EXIT_FAILURE);
 	}	  
-	while (index < 2)
+	while (index < 3)
 	{
 		printf("Token: \"%s\"\n", token);
 		if (!strcmp(token, instr[index].opcode))
@@ -133,6 +157,7 @@ int main(int argc, char **argv)
 	unsigned int l_num;
 	instruction_t instr[] = {
 		{"push", push},
+		{"pint", pint},
 		{"pall", pall}
 	};
 	stack_t *top;
