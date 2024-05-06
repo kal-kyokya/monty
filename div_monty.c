@@ -1,13 +1,13 @@
 #include "monty.h"
 
 /**
- * msub - Substracts the top 2 stack and pop the top one.
+ * mdiv - Divides the top 2 stack and pop the top one.
  * @h: Address of the pointer to the top of the stack.
  * @count: Line number from file.
  *
  * Return: Nothing.
  **/
-void msub(stack_t **h, unsigned int count)
+void mdiv(stack_t **h, unsigned int count)
 {
 	stack_t *top;
 
@@ -20,7 +20,7 @@ void msub(stack_t **h, unsigned int count)
 		fclose(variable.file);
 		exit(EXIT_FAILURE);
 	}
-	top->next->n -= top->n;
+	top->next->n /= top->n;
 	*h = top->next;
 	top->prev = NULL;
 	free(top);

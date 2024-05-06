@@ -65,6 +65,7 @@ void mswap(stack_t **h, unsigned int count);
 void madd(stack_t **h, unsigned int count);
 void mnop(stack_t **h, unsigned int count);
 void msub(stack_t **h, unsigned int count);
+void mdiv(stack_t **h, unsigned int count);
 
 void free_stack(stack_t *h);
 void add_node_end(stack_t **h, int n);
