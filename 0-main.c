@@ -100,7 +100,6 @@ void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t *
 	char *token;
 	int l_index, index;
 
-	printf("\"%s\" -> ", line);
 	l_index = index = 0;
 	if (line[l_index] == '\0')
 		return;
@@ -114,10 +113,10 @@ void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t *
 	{
 		fprintf(stderr, "\nERROR:L%d: NULL input.\n", l_num);
 		exit(EXIT_FAILURE);
-	}	  
+	}
+	printf("\"%s\"\n", token);
 	while (index < 3)
 	{
-		printf("Token: \"%s\"\n", token);
 		if (!strcmp(token, instr[index].opcode))
 		{
 			if (index == 0)
@@ -195,7 +194,7 @@ int main(int argc, char **argv)
 		new_node = add_node_end(&head, str);
 	}
 	current = head;
-	while (current != NULL)
+	while (current->next != NULL)
 	{
 		printf("L%d: ", l_num);
 		line_check(current->str, instr, l_num, &top);
