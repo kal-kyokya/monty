@@ -125,9 +125,10 @@ int main(int argc, char **argv)
 	int fd = open(argv[1], O_RDONLY);
 	char read_buffer[1024], *str;
 	unsigned int l_num = 1;
-	instruction_t instr[] = { {"push", push}, {"pint", pint}, {"pop", pop}, {"pall", pall} };
+	instruction_t instr[] = { {"push", push}, {"pint", pint}, {"swap", swap},
+					{"pop", pop}, {"pall", pall} };
 	stack_t *top = NULL;
-	list_t  *new = malloc(sizeof(list_t)), *head = new, *current;
+	list_t  *new = malloc(sizeof(list_t)), *head = new, *current = head;
 
 	if (argc != 2)
 	{
@@ -152,7 +153,6 @@ int main(int argc, char **argv)
 		str = strtok(NULL, "\n");
 		new = add_node_end(&head, str);
 	}
-	current = head;
 	while (current->next != NULL)
 	{
 		l_check(current->str, instr, l_num++, &top);

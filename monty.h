@@ -104,7 +104,7 @@ void l_check(char *l, instruction_t instr[], unsigned int l_n, stack_t **t)
 		fprintf(stderr, "\nERROR:L%d: NULL input.\n", l_n);
 		exit(EXIT_FAILURE);
 	}
-	while (index < 4)
+	while (index < 5)
 	{
 		if (!strcmp(token, instr[index].opcode))
 		{
@@ -128,6 +128,38 @@ void l_check(char *l, instruction_t instr[], unsigned int l_n, stack_t **t)
 	{
 		printf("L%d: unknown instruction %s\n", l_n, token);
 		exit(EXIT_FAILURE);
+	}
+}
+
+/**
+ * swap - Swaps the top 2 elements of the stack.
+ * @top: Address of the pointer to last added node to DLL.
+ * @l_num: Integer referring the nth line in file.
+ *
+ * Return: Nothing.
+ */
+void swap(stack_t **top, unsigned int l_num)
+{
+	stack_t *temp;
+
+	if (top == NULL)
+	{
+		fprintf(stderr, "Error:Line %d: Couldn't find top stack.\n", l_num);
+		exit(EXIT_FAILURE);
+	}
+	if ((*top)->next == NULL)
+	{
+		fprintf(stderr, "L%d: can't swap, stack too short\n", l_num);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		temp = *top;
+		*top = (*top)->next;
+		temp->next = (*top)->next;
+		temp->prev = *top;
+		(*top)->next = temp;
+		(*top)->prev = NULL;
 	}
 }
 
