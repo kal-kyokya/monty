@@ -13,7 +13,7 @@ void mpop(stack_t **h, unsigned int count)
 
 	if (*h == NULL)
 	{
-		fprintf(stderr, "L%u: can't pop an stack empty\n", count);
+		fprintf(stderr, "L%u: can't pop an empty stack\n", count);
 		fclose(variable.file);
 		free(variable.text);
 		free_stack(*h);
