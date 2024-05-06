@@ -1,18 +1,15 @@
 #ifndef MONTY_H
 #define MONTY_H
 
+#define _POSIX_C_SOURCE 200809L
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <stddef.h>
 #include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-
-int push_value;
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
- * @value: integer
+ * @n: integer
  * @prev: points to the previous element of the stack (or queue)
  * @next: points to the next element of the stack (or queue)
  *
@@ -21,7 +18,7 @@ int push_value;
  */
 typedef struct stack_s
 {
-	int value;
+	int n;
 	struct stack_s *prev;
 	struct stack_s *next;
 } stack_t;
@@ -41,129 +38,35 @@ typedef struct instruction_s
 } instruction_t;
 
 /**
- * struct list_s - Doubly linked list
- * @str: string
- * @next: points to the next node
- * @prev: points to the previous node.
- *
- * Description: Doubly linked list node structure for project
+ * struct variable_s - variables to be used
+ * @argvalue: value of argument stored
+ * @file: pointer to the file
+ * @text: content or code on a line
+ * @flag: to swap in stack
+ * Description: variables to be used through the program
  */
-typedef struct list_s
+typedef struct variable_s
 {
-	char *str;
-	struct list_s *next;
-	struct list_s *prev;
-} list_t;
+	char *argvalue;
+	FILE *file;
+	char *text;
+	int flag;
+} variable_t;
 
-/**
- * add_node_end - adds a new node at the end of a list_t list
- * @head: pointer to pointer of first node of list_t list
- * @str: String to be included in new node
- *
- * Return: address of the new element or NULL if it fails
- */
-list_t *add_node_end(list_t **head, char *str)
-{
-	list_t *new;
-	list_t *current;
+extern variable_t variable;
 
-	current = *head;
-	new = malloc(sizeof(list_t));
-	if (new == NULL)
-		return (NULL);
-	new->str = str;
-	new->next = NULL;
-	while (current->next != NULL)
-		current = current->next;
-	current->next = new;
-	new->prev = current;
-
-	return (new);
-}
-
-/**
- * l_check - Checks if an input has the right syntax.
- * @l: String to be parsed in search for opcode.
- * @instr: List of opcodes and their associated functions.
- * @l_n: Number referring the line in file being processed.
- * @t: Address of the pointer to the top of the stack.
- *
- * Return: Nothing.
- */
-void l_check(char *l, instruction_t instr[], unsigned int l_n, stack_t **t)
-{
-	char *token;
-	int l_index, index;
-
-	l_index = index = 0;
-	if (l[l_index] == '\0')
-		return;
-	token = strtok(l, " ");
-	if (token == NULL)
-	{
-		fprintf(stderr, "\nERROR:L%d: NULL input.\n", l_n);
-		exit(EXIT_FAILURE);
-	}
-	while (index < 5)
-	{
-		if (!strcmp(token, instr[index].opcode))
-		{
-			if (index == 0)
-			{
-				token = strtok(NULL, " ");
-				if (!atoi(token) && strcmp(token, "0"))
-				{
-					fprintf(stderr, "L%d: unknown instruction %s\n", l_n, token);
-					exit(EXIT_FAILURE);
-				}
-				else
-					push_value = (atoi(token));
-			}
-			instr[index].f(t, l_n);
-			return;
-		}
-		index++;
-	}
-	if (index >= 2)
-	{
-		printf("L%d: unknown instruction %s\n", l_n, token);
-		exit(EXIT_FAILURE);
-	}
-}
-
-/**
- * swap - Swaps the top 2 elements of the stack.
- * @top: Address of the pointer to last added node to DLL.
- * @l_num: Integer referring the nth line in file.
- *
- * Return: Nothing.
- */
-void swap(stack_t **top, unsigned int l_num)
-{
-	stack_t *temp;
-
-	if (top == NULL)
-	{
-		fprintf(stderr, "Error:Line %d: Couldn't find top stack.\n", l_num);
-		exit(EXIT_FAILURE);
-	}
-	if ((*top)->next == NULL)
-	{
-		fprintf(stderr, "L%d: can't swap, stack too short\n", l_num);
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		temp = *top;
-		*top = (*top)->next;
-		temp->next = (*top)->next;
-		temp->prev = *top;
-		(*top)->next = temp;
-		(*top)->prev = NULL;
-	}
-}
-
-void push(stack_t **stack, unsigned int line_number);
-void pall(stack_t **stack, unsigned int line_number);
+int main(int argc, char *argv[]);
+FILE *check_monty(int argc, char *argv[]);
+void mpush(stack_t **h, unsigned int count);
+void mpop(stack_t **h, unsigned int count);
+void mpall(stack_t **h, unsigned int count);
+void mpint(stack_t **h, unsigned int count);
+void mswap(stack_t **h, unsigned int count);
+void madd(stack_t **h, unsigned int count);
+void mnop(stack_t **h, unsigned int count);
+void free_stack(stack_t *h);
+void add_node_end(stack_t **h, int n);
+void add_node(stack_t **h, int n);
+int exec_monty(char *text, stack_t **stack, unsigned int count, FILE *file);
 
 #endif /* MONTY_H */
