@@ -81,6 +81,56 @@ list_t *add_node_end(list_t **head, char *str)
 	return (new);
 }
 
+/**
+ * l_check - Checks if an input has the right syntax.
+ * @l: String to be parsed in search for opcode.
+ * @instr: List of opcodes and their associated functions.
+ * @l_n: Number referring the line in file being processed.
+ * @t: Address of the pointer to the top of the stack.
+ *
+ * Return: Nothing.
+ */
+void l_check(char *l, instruction_t instr[], unsigned int l_n, stack_t **t)
+{
+	char *token;
+	int l_index, index;
+
+	l_index = index = 0;
+	if (l[l_index] == '\0')
+		return;
+	token = strtok(l, " ");
+	if (token == NULL)
+	{
+		fprintf(stderr, "\nERROR:L%d: NULL input.\n", l_n);
+		exit(EXIT_FAILURE);
+	}
+	while (index < 4)
+	{
+		if (!strcmp(token, instr[index].opcode))
+		{
+			if (index == 0)
+			{
+				token = strtok(NULL, " ");
+				if (!atoi(token) && strcmp(token, "0"))
+				{
+					fprintf(stderr, "L%d: unknown instruction %s\n", l_n, token);
+					exit(EXIT_FAILURE);
+				}
+				else
+					push_value = (atoi(token));
+			}
+			instr[index].f(t, l_n);
+			return;
+		}
+		index++;
+	}
+	if (index >= 2)
+	{
+		printf("L%d: unknown instruction %s\n", l_n, token);
+		exit(EXIT_FAILURE);
+	}
+}
+
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
 
