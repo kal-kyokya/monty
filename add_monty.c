@@ -10,8 +10,7 @@
 void madd(stack_t **h, unsigned int count)
 {
 	stack_t *temp;
-	int sum;
-	
+
 	if ((*h)->next == NULL)
 	{
 		fprintf(stderr, "L%u: can't add, stack too short\n", count);

@@ -10,7 +10,7 @@
 void mswap(stack_t **h, unsigned int count)
 {
 	stack_t *temp;
-	
+
 	if ((*h)->next == NULL)
 	{
 		fprintf(stderr, "L%u: can't swap, stack too short\n", count);
