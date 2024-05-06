@@ -61,6 +61,7 @@ void pall(stack_t **top, unsigned int l_num)
 		printf("%d\n", current->value);
 		current = current->next;
 	}
+	printf("\n");
 }
 
 /**
@@ -73,9 +74,17 @@ void pall(stack_t **top, unsigned int l_num)
 void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t **top)
 {
 	char *token;
-	int index;
+	int l_index, index;
 
-	index = 0;
+	printf("\"%s\" -> ", line);
+	l_index = index = 0;
+	if (line[l_index] == '\0')
+		return;
+	while (line[l_index] == ' ')
+	{
+		if (line[++l_index] == '\0')
+			return;
+	}
 	token = strtok(line, " ");
 	if (token == NULL)
 	{
@@ -84,6 +93,7 @@ void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t *
 	}	  
 	while (index < 2)
 	{
+		printf("Token: \"%s\"\n", token);
 		if (!strcmp(token, instr[index].opcode))
 		{
 			if (index == 0)
@@ -119,7 +129,7 @@ void line_check(char *line, instruction_t instr[], unsigned int l_num, stack_t *
 int main(int argc, char **argv)
 {
 	int fd;
-	char read_buffer[1024];
+	char read_buffer[1024], *str;
 	unsigned int l_num;
 	instruction_t instr[] = {
 		{"push", push},
@@ -155,10 +165,14 @@ int main(int argc, char **argv)
 	new_node->prev = NULL;
 	head = new_node;
 	while (new_node->str != NULL)
-		new_node = add_node_end(&head, strtok(NULL, "\n"));
-	current = head;
-	while (current->str != NULL)
 	{
+		str = strtok(NULL, "\n");
+		new_node = add_node_end(&head, str);
+	}
+	current = head;
+	while (current != NULL)
+	{
+		printf("L%d: ", l_num);
 		line_check(current->str, instr, l_num, &top);
 		l_num++;
 		current = current->next;
