@@ -17,7 +17,7 @@ int exec_monty(char *text, stack_t **stack, unsigned int count, FILE *file)
 		{"swap", mswap}, {"add", madd},
 		{"nop", mnop}, {"sub", msub},
 		{"div", mdiv}, {"mul", mmul},
-		{"mod", mmod},
+		{"mod", mmod}, {"pchar", mpchar},
 		{NULL, NULL}
 	};
 	char *code;
