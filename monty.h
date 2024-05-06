@@ -70,6 +70,7 @@ void mmul(stack_t **h, unsigned int count);
 void mmod(stack_t **h, unsigned int count);
 void mpchar(stack_t **h, unsigned int count);
 void mpstr(stack_t **h, unsigned int count);
+void mrotl(stack_t **h, unsigned int count);
 
 void free_stack(stack_t *h);
 void add_node_end(stack_t **h, int n);

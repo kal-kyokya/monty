@@ -11,6 +11,8 @@
  */
 int exec_monty(char *text, stack_t **stack, unsigned int count, FILE *file)
 {
+	char *code;
+	unsigned int i = 0;
 	instruction_t compare[] = {
 		{"push", mpush}, {"pall", mpall},
 		{"pint", mpint}, {"pop", mpop},
@@ -18,11 +20,9 @@ int exec_monty(char *text, stack_t **stack, unsigned int count, FILE *file)
 		{"nop", mnop}, {"sub", msub},
 		{"div", mdiv}, {"mul", mmul},
 		{"mod", mmod}, {"pchar", mpchar},
-		{"pstr", mpstr},
+		{"pstr", mpstr}, {"rotl", mrotl},
 		{NULL, NULL}
 	};
-	char *code;
-	unsigned int i = 0;
 
 	code = strtok(text, " \n\t");
 	if (code && code[0] == '#')
