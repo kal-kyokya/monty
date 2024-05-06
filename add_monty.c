@@ -4,14 +4,21 @@
  * madd - adds the top two elements of the stack
  * @h: head
  * @count: line number
- *
  * Return: nothing.
  */
+
 void madd(stack_t **h, unsigned int count)
 {
 	stack_t *temp;
-
-	if ((*h)->next == NULL)
+	int arg_len = 0;
+	
+	temp = *h;
+	while (temp)
+	{
+		temp = temp->next;
+		arg_len++;
+	}
+	if (arg_len < 2)
 	{
 		fprintf(stderr, "L%u: can't add, stack too short\n", count);
 		fclose(variable.file);
