@@ -176,7 +176,7 @@ int main(int argc, char **argv)
 	current = head;
 	while (current->next != NULL)
 	{
-		line_check(current->str, instr, l_num++, &top);
+		l_check(current->str, instr, l_num++, &top);
 		current = current->next;
 	}
 	free(top);
