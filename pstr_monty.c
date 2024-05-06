@@ -10,6 +10,7 @@
 void mpstr(stack_t **h, unsigned int count)
 {
 	stack_t *current;
+	(void)count;
 
 	current = *h;
 	if (*h == NULL)
