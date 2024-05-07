@@ -21,13 +21,16 @@ int exec_monty(char *text, stack_t **stack, unsigned int count, FILE *file)
 		{"div", mdiv}, {"mul", mmul},
 		{"mod", mmod}, {"pchar", mpchar},
 		{"pstr", mpstr}, {"rotl", mrotl},
-		{"rotr", mrotr},
+		{"rotr", mrotr}, {"queue", mnop},
+		{"stack", mnop},
 		{NULL, NULL}
 	};
 
 	code = strtok(text, " \n\t");
 	if (code && code[0] == '#')
 		return (0);
+	if (code && !strcmp(code, "queue"))
+		variable.flag = 1;
 	variable.argvalue = strtok(NULL, " \n\t");
 	while (compare[i].opcode && code)
 	{

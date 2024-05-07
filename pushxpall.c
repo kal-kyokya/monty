@@ -33,7 +33,10 @@ void mpush(stack_t **h, unsigned int count)
 		}
 		i++;
 	}
-	num = atoi(variable.argvalue);
+	if (!strcmp(variable.value, "0"))
+		num = 0;
+	else
+		num = atoi(variable.argvalue);
 	if (variable.flag == 0)
 		add_node(h, num);
 	else
