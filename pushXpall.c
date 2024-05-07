@@ -11,27 +11,30 @@ void mpush(stack_t **h, unsigned int count)
 {
 	int i = 0, num;
 
-	if (!variable.argvalue)
+	if (variable.argvalue)
+	{
+		if (variable.argvalue[0] == '-')
+			i++;
+		while (variable.argvalue[i] != '\0')
+		{
+			if (variable.argvalue[i] > '9' || variable.argvalue[i] < '0')
+			{
+				fprintf(stderr, "L%d: usage: push integer\n", count);
+				fclose(variable.file);
+				free(variable.text);
+				free_stack(*h);
+				exit(EXIT_FAILURE);
+			}
+			i++;
+		}
+	}
+	else
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", count);
 		fclose(variable.file);
 		free(variable.text);
 		free_stack(*h);
 		exit(EXIT_FAILURE);
-	}
-	if (variable.argvalue[0] == '-')
-		i++;
-	while (variable.argvalue[i] != '\0')
-	{
-		if (variable.argvalue[i] > '9' || variable.argvalue[i] < '0')
-		{
-			fprintf(stderr, "L%d: usage: push integer\n", count);
-			fclose(variable.file);
-			free(variable.text);
-			free_stack(*h);
-			exit(EXIT_FAILURE);
-		}
-		i++;
 	}
 
 	num = atoi(variable.argvalue);
