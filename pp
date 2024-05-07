@@ -9,7 +9,7 @@
  */
 void mpush(stack_t **h, unsigned int count)
 {
-	int i = 0, num, flag = 0;
+	int i = 0, num;
 
 	if (!variable.argvalue)
 	{
@@ -21,18 +21,17 @@ void mpush(stack_t **h, unsigned int count)
 	}
 	if (variable.argvalue[0] == '-')
 		i++;
-	for (; variable.argvalue[j] != '\0'; j++)
+	while (variable.argvalue[i] != '\0')
 	{
-		if (variable.argvalue[j] > 57 || variable.argvalue[j] < 48)
-			flag = 1;
-	}
-	if (flag == 1)
-	{
-		fprintf(stderr, "L%d: usage: push integer\n", count);
-		fclose(variable.file);
-		free(variable.text);
-		free_stack(*h);
-		exit(EXIT_FAILURE);
+		if (variable.argvalue[i] > '9' || variable.argvalue[i] < '0')
+		{
+			fprintf(stderr, "L%d: usage: push integer\n", count);
+			fclose(variable.file);
+			free(variable.text);
+			free_stack(*h);
+			exit(EXIT_FAILURE);
+		}
+		i++;
 	}
 
 	num = atoi(variable.argvalue);
