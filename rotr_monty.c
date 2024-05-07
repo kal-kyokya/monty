@@ -1,7 +1,7 @@
 #include "monty.h"
 
 /**
- * rotr - Wraps around top sets to bottom.
+ * mrotr - Wraps around top sets to bottom.
  * @h: Adress of the top pointer.
  * @count: Line number.
  *
