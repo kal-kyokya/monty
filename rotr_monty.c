@@ -9,16 +9,17 @@
  */
 void mrotr(stack_t **h, unsigned int count)
 {
-	stack_t *temp, *current;
+	stack_t *current;
 	(void)count;
 
 	if (h == NULL || *h == NULL || (*h)->next == NULL)
 		return;
-	current = temp = *h;
+	current = *h;
 	while (current->next != NULL)
 		current = current->next;
 	current->prev->next = NULL;
+	current->next = *h;
+	(*h)->prev = current;
 	*h = current;
-	(*h)->prev = NULL;
-	current->next = temp;
+	current->prev = NULL;
 }
