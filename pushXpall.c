@@ -21,7 +21,7 @@ void mpush(stack_t **h, unsigned int count)
 	}
 	if (variable.argvalue[0] == '-')
 		i++;
-	while (variable.argvalue[i])
+	while (variable.argvalue[i] != '\0')
 	{
 		if (variable.argvalue[i] > '9' || variable.argvalue[i] < '0')
 		{
@@ -33,6 +33,7 @@ void mpush(stack_t **h, unsigned int count)
 		}
 		i++;
 	}
+
 	num = atoi(variable.argvalue);
 	if (variable.flag == 0)
 		add_node(h, num);
