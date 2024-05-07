@@ -33,7 +33,7 @@ void mpush(stack_t **h, unsigned int count)
 		}
 		i++;
 	}
-	if (!strcmp(variable.value, "0"))
+	if (!strcmp(variable.argvalue, "0"))
 		num = 0;
 	else
 		num = atoi(variable.argvalue);
