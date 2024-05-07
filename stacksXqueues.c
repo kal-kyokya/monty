@@ -1,7 +1,7 @@
 #include "monty.h"
 
 /**
- * mqueue - Sets the insertion mode of monty as a queue. 
+ * mqueue - Sets the insertion mode of monty as a queue.
  * @h: Address of the pointer to the top of the stack.
  * @count: Line number.
  *
@@ -15,9 +15,8 @@ void mqueue(stack_t **h, unsigned int count)
 	variable.flag = 1;
 }
 
-
 /**
- * mstack - Sets the insertion mode of monty as a stack. 
+ * mstack - Sets the insertion mode of monty as a stack.
  * @h: Address of the pointer to the top of the stack.
  * @count: Line number.
  *

@@ -12,7 +12,7 @@ void mrotl(stack_t **h, unsigned int count)
 	stack_t *temp, *current;
 	(void)count;
 
-	if (h == NULL || *h == NULL)
+	if (h == NULL || *h == NULL || (*h)->next == NULL)
 		return;
 	current = temp = *h;
 	*h = current->next;
