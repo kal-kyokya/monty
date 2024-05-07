@@ -1,4 +1,3 @@
-#define _GNU_SOURCE
 #include "monty.h"
 
 variable_t variable = {NULL, NULL, NULL, 0};
