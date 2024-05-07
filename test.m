@@ -1,20 +1,31 @@
-queue
-push 1
 push 2
-push 3
+push 1
+push 0
 pall
-push 10
+push 0
 pchar
-stack
+pop
+
+queue
+
+push 3
 push 4
 push 5
-push 6
 pall
-push 10
+stack
+push 0
 pchar
+pop
+
 add
-pall
-queue
-push 11111
-add
-pall
+
+pint
+push 0
+pchar
+pop
+
+push 0
+
+mul
+
+pint
